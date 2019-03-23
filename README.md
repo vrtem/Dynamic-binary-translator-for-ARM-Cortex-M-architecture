@@ -1,0 +1,3 @@
+# Dynamic binary translator from ARM Cortex-M architecture to WebAssembly
+
+Implementation of a binary translator that will allow to run an executable file for the ARM Cortex-M architecture in a browser using WebAssembly. The tool will accept the executable file in the ELF format as the input and start executing it. The machine code from the input file will be onverted to the machine code of the target architecture and then executed.
