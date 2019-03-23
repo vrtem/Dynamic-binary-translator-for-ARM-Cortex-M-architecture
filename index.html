@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>WebAssembly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+  </head>
+  <body>
+    <div class="score"></div>
+    <button class="roll">Losuj</button>
+    <script src="diceroll.js"></script>
+    <script>
+      var score = document.querySelector('.score');
+      var roll = document.querySelector('.roll');
+      roll.addEventListener('click', function() {
+    //w tym miejscu odwołujemy się do funkcji napisanej w C
+        var result = _roll_dice();
+        console.log(result)
+    score.innerHTML = result;
+      });
+    </script>
+  </body>
+</html>
