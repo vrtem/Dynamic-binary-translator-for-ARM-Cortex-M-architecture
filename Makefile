@@ -1,10 +1,13 @@
 EMCC = emcc
 SOURCES = diceroll.c
 EMFLAGS = -O1 -s WASM=1	# set optimization flag and
-						# information for the compiler to work in WASM mode, otherwise the asm.js code will be generated
+			# information for the compiler to work in WASM mode, otherwise the asm.js code will be generated
 
 build:	$(SOURCES)
-		$(EMCC) $(EMFLAGS) $(SOURCES) -o diceroll.js
+	$(EMCC) $(EMFLAGS) $(SOURCES) -o diceroll.js
+
+wasm:	$(SOURCES)
+	$(EMCC) $(EMFLAGS) $(SOURCES) -o diceroll.wasm
 
 test:
-		emrun --no_browser --port 8080 .
+	emrun --no_browser --port 8080 .
