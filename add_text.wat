@@ -2,8 +2,8 @@
     ;; Define a function that takes two i32 parameters and returns a i32 number.
     (type $0 (func (param i32 i32) (result i32)))
     (memory $0 0)
-    ;; Export the first function defined in the type section with name 'sum'.
-    (export "sum" (func $0))
+    ;; Export the first function defined in the type section with name 'add'.
+    (export "add" (func $0))
     ;; The body of the function defined above.
     (func $0 (type $0) (param $var$0 i32) (param $var$1 i32) (result i32) 
         ;; The opcode (operation code) that stands for addition of i32.
