@@ -8,6 +8,7 @@ To compile C file to WebAssembly you need to download: [Emscripten SDK](https://
 source ./emsdk_env.sh
 ```
 
-`make build` - creates a JavaScript file with the translated function that can be run in the browser.
-`make wasm` - creates a .wasm file.
-`make test` - runs a local server provided by Emscripten SDK on port 8080 [(localhost:8080/index.html)](localhost:8080/index.html)
+### Commands
+* `make build` - creates a JavaScript file with the translated function that can be run in the browser.
+* `make wasm` - creates a .wasm file.
+* `make test` - runs a local server provided by Emscripten SDK on port 8080 [(localhost:8080/index.html)](localhost:8080/index.html)
