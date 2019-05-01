@@ -1,0 +1,26 @@
+------------------------------------------
+XXX - source/destination register
+YYYY YYYY - immediate value
+
+MOV immediate - 0010 0 XXX YYYY YYYY
+CMP immediate - 0010 1 XXX YYYY YYYY
+ADD immediate - 0011 0 XXX YYYY YYYY
+SUB immediate - 0011 1 XXX YYYY YYYY
+------------------------------------------
+R is 1 if "LR" (link register - used to hold the return address for a function call)
+is in the register list of PUSH or "PC" (program counter - address of currently executed code)
+is in the register list of POP.
+XXXX XXXX - register list (k-bit is set if register Rk appears in the register list)
+
+PUSH - 1011 0 10 R XXXX XXXX
+POP  - 1011 1 10 R XXXX XXXX
+------------------------------------------
+XXX XXXX XXXX - offset
+
+BRANCH uncondtional - 1110 0 XXX XXXX XXXX
+------------------------------------------
+XXXX - condtional code (https://ece.uwaterloo.ca/~ece222/ARM/ARM7-TDMI-manual-pt3.pdf, page 36)
+YYYY YYYY - number of halfwords to offset
+
+BRANCH condtional   - 1101 XXXX YYYY YYYY
+------------------------------------------
