@@ -1,6 +1,6 @@
 # Simple bare metal C program for ARM Cortex M3 with QEMU
 
-Create a file with the C code that you want to run on the ARM Cortex M3 machine.
+Create a file with `C` code that you want to run on the ARM Cortex M3 machine.
 ```c
 static const int a = 7;
 static int b = 8;
@@ -12,8 +12,8 @@ void main()
 }
 ```
 
-Compile the `C` files into object files using gcc.
-Use the startup code named `startup.c` from this repo .
+Compile the `C` file into object files using gcc.
+Use the startup code named `startup.c` from this repo.
 
 ```
 arm-none-eabi-gcc -O0 -c -g -mcpu=cortex-m3 -mthumb -o test_program.o test_program.c
