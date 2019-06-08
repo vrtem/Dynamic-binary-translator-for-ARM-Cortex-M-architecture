@@ -1,5 +1,7 @@
+Based mainly on: 
+THUMB Instruction Set - https://ece.uwaterloo.ca/~ece222/ARM/ARM7-TDMI-manual-pt3.pdf
 ------------------------------------------
-XXX - source/destination register
+XXX - source/destination register (r7 = 111, r6 = 110, etc.)
 YYYY YYYY - immediate value
 
 MOV immediate - 0010 0 XXX YYYY YYYY
@@ -7,9 +9,7 @@ CMP immediate - 0010 1 XXX YYYY YYYY
 ADD immediate - 0011 0 XXX YYYY YYYY
 SUB immediate - 0011 1 XXX YYYY YYYY
 ------------------------------------------
-R is 1 if "LR" (link register - used to hold the return address for a function call)
-is in the register list of PUSH or "PC" (program counter - address of currently executed code)
-is in the register list of POP.
+R is 1 if "LR" (link register - used to hold the return address for a function call) is in the register list of PUSH or 0 if "PC" (program counter - address of currently executed code) is in the register list of POP
 XXXX XXXX - register list (k-bit is set if register Rk appears in the register list)
 
 PUSH - 1011 0 10 R XXXX XXXX
@@ -18,9 +18,40 @@ POP  - 1011 1 10 R XXXX XXXX
 XXX XXXX XXXX - offset
 
 BRANCH uncondtional - 1110 0 XXX XXXX XXXX
+
+Delta is: target - (PC + 0x4) >> 2
 ------------------------------------------
-XXXX - condtional code (https://ece.uwaterloo.ca/~ece222/ARM/ARM7-TDMI-manual-pt3.pdf, page 36)
+X is 0 if the register is in the range of 0-7 or 1 if it is in the range of 8-15 (for example LR)
+YY YYYY - address register
+
+BX - 0100 0111 0 X YY YYYY
+------------------------------------------
+XXXX - condtional code (THUMB Instruction Set, page 36)
 YYYY YYYY - number of halfwords to offset
 
 BRANCH condtional   - 1101 XXXX YYYY YYYY
 ------------------------------------------
+NOP - 1011111100000000
+------------------------------------------
+X - PC (program counter) - 0  or SP (stack pointer) - 1
+YYY - destination register (r7 = 111, r6 = 110, etc.)
+ZZZZZZZZ - unsigned constant
+
+ADD (load address) - 1010 X YYY ZZZZ ZZZZ
+------------------------------------------
+XXX - source/destination register (r7 = 111, r6 = 110, etc.)
+YYYYYYYY - immediate value
+
+STR - 1001 0 XXX YYYY YYYY
+LDR - 1001 1 XXX YYYY YYYY
+------------------------------------------
+XXX - offset register
+YYY - base register
+ZZZ - source/destination register (r7 = 111, r6 = 110, etc.)
+
+STR  - 0101 000 XXX YYY ZZZ
+// STRB - 0101 010 XXX YYY ZZZ
+LDR  - 0101 100 XXX YYY ZZZ
+// LDRB - 0101 110 XXX YYY ZZZ
+------------------------------------------
+
