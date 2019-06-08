@@ -43,6 +43,7 @@ if __name__ == '__main__':
 
 	print 'Test:'
 	for x in range(len(sep_bytes)):
+		counter = 0
 		#here we counting from left side and from 1
 		#16 bits
 		allBits = ''.join(sep_bytes[x][:16])
@@ -52,6 +53,8 @@ if __name__ == '__main__':
 		fifthBit =''.join(sep_bytes[x][4])
 		#12,11,10 bits
 		fifthToSeventhBits =''.join(sep_bytes[x][4:7])
+		#12,11,10,9 bits
+		fifthToEighthBits =''.join(sep_bytes[x][4:8])
 		#9 bit
 		eighthBit =''.join(sep_bytes[x][7])
 		#10 bit
@@ -63,6 +66,9 @@ if __name__ == '__main__':
 		#'0010' or '0011' or '1001' 11,10,9 bits
 		sixthToEighthBits =''.join(sep_bytes[x][5:8])
 		ninethTo16Bits =''.join(sep_bytes[x][8:16])
+		eighthTo11Bits =''.join(sep_bytes[x][7:10])
+		eleventhTo13Bits =''.join(sep_bytes[x][10:13])
+		thirteenthTo16Bits =''.join(sep_bytes[x][13:16])
 
 		#result of passing 13-16 bits (counted from 1) to dictionary
 		result1 = bits_dict.get(firstFourBits)
@@ -71,27 +77,52 @@ if __name__ == '__main__':
 
 		#here we're checking if our string of bits is NOP
 		if allBits == '1011111100000000':
-			print 'nop'
+			result = 'nop'
 		#here is the special check for the pop R/pop LR
 		elif firstFourBits == '1011':
 			result = result1.get(fifthToSeventhBits)
 			result = result.get(eighthBit)
-			print result
+			for x in ninethTo16Bits:
+				if x == '1':
+					result = result + ' #' + str(7 - counter)
+				counter += 1
+
 		#here is the special check for the branch conditional
 		elif firstFourBits == '1101':
-			result = result1
-			print result
+			result = result1 + ' #' + str(int(fifthToEighthBits, 2)) + ' #' + str(int(ninethTo16Bits, 2))
+
 		#here is the special check for the bx low/high
 		elif firstFourBits == "0100":
 			result = result1.get(fifthToNinethBits)
 			result = result.get(ninethBit)
-			print result
+
 		else:
-			print result2
+			result = result2
 
-		if firstFourBits == ('0010' or '0011' or '1001'):
-			print 'r' + str(int(sixthToEighthBits, 2))
-			print '#' + str(int(ninethTo16Bits,2))
+		if firstFourBits == '1010':
+			result = result + ' r' + str(int(sixthToEighthBits, 2))
+			result = result + ' #' + str(int(ninethTo16Bits,2))
+		
+		if firstFourBits == '0010':
+			result = result + ' r' + str(int(sixthToEighthBits, 2))
+			result = result + ' #' + str(int(ninethTo16Bits,2))
 
-		#elif firstFourBits == 
+		if firstFourBits == '0011':
+			result = result + ' r' + str(int(sixthToEighthBits, 2))
+			result = result + ' #' + str(int(ninethTo16Bits,2))
+		
+		if firstFourBits == '1001':
+			result = result + ' r' + str(int(sixthToEighthBits, 2))
+			result = result + ' #' + str(int(ninethTo16Bits,2))
+
+		if firstFourBits == '0101':
+			result = result + ' r' + str(int(eighthTo11Bits, 2))
+			result = result + ' [r' + str(int(eleventhTo13Bits,2))
+			result = result + ', r' + str(int(thirteenthTo16Bits,2)) + ']'
+
+
+		print result
+
+		
+
 
