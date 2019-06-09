@@ -15,6 +15,11 @@ XXXX XXXX - register list (k-bit is set if register Rk appears in the register l
 PUSH - 1011 0 10 R XXXX XXXX
 POP  - 1011 1 10 R XXXX XXXX
 ------------------------------------------
+X - 0 if offset is positive, 1 if offset is negative
+YYY YYYY - offset (the value is shifted by two bits to the left - offset = YYYYYYY << 2)
+
+ADD (to SP) - 1011 0000 X YYY YYYY
+------------------------------------------
 XXX XXXX XXXX - offset
 
 BRANCH uncondtional - 1110 0 XXX XXXX XXXX
