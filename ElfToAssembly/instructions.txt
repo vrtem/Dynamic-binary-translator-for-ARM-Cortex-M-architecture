@@ -16,7 +16,7 @@ PUSH - 1011 0 10 R XXXX XXXX
 POP  - 1011 1 10 R XXXX XXXX
 ------------------------------------------
 X - 0 if offset is positive, 1 if offset is negative
-YYY YYYY - offset (the value is shifted by two bits to the left - offset = YYYYYYY << 2)
+YYY YYYY - offset (the value is shifted by two bits to the left - final offset = YYYYYYY << 2)
 
 ADD (to SP) - 1011 0000 X YYY YYYY
 ------------------------------------------
@@ -50,8 +50,8 @@ YYYYYYYY - immediate value
 STR - 1001 0 XXX YYYY YYYY
 LDR - 1001 1 XXX YYYY YYYY
 ------------------------------------------
-XXX - offset register
-YYY - base register
+XXX - offset register (r7 = 111, r6 = 110, etc.)
+YYY - base register (r7 = 111, r6 = 110, etc.)
 ZZZ - source/destination register (r7 = 111, r6 = 110, etc.)
 
 STR  - 0101 000 XXX YYY ZZZ
@@ -59,4 +59,9 @@ STR  - 0101 000 XXX YYY ZZZ
 LDR  - 0101 100 XXX YYY ZZZ
 // LDRB - 0101 110 XXX YYY ZZZ
 ------------------------------------------
+XXX XX - offset (the value is shifted by one bit to the left - final offset = XXXXX << 1)
+YYY - base register (r7 = 111, r6 = 110, etc.)
+ZZZ - source/destination register (r7 = 111, r6 = 110, etc.)
 
+STRH - 1000 0 XXX XX YYY ZZZ
+LDRH - 1000 1 XXX XX YYY ZZZ
