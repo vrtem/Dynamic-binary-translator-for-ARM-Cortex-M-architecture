@@ -66,14 +66,16 @@ if __name__ == '__main__':
 		#'0010' or '0011' or '1001' 11,10,9 bits
 		sixthToEighthBits =''.join(sep_bytes[x][5:8])
 		ninethTo16Bits =''.join(sep_bytes[x][8:16])
+		ninethTo11Bits =''.join(sep_bytes[x][9:12])
+		tenthTo16Bits =''.join(sep_bytes[x][9:16])
 		eighthTo11Bits =''.join(sep_bytes[x][7:10])
 		eleventhTo13Bits =''.join(sep_bytes[x][10:13])
-		thirteenthTo16Bits =''.join(sep_bytes[x][13:16])
+		thirteenthTo16Bits =''.join(sep_bytes[x][11:])
+		six2ten =''.join(sep_bytes[x][6:10])
+		six28 =''.join(sep_bytes[x][6:9])
 
 		#result of passing 13-16 bits (counted from 1) to dictionary
 		result1 = bits_dict.get(firstFourBits)
-		#result of passing 13-16 bits and 12 bit (counted from 1) to dictionary 
-		result2 = result1.get(fifthBit)
 
 		#here we're checking if our string of bits is NOP
 		if allBits == '1011111100000000':
@@ -81,11 +83,17 @@ if __name__ == '__main__':
 		#here is the special check for the pop R/pop LR
 		elif firstFourBits == '1011':
 			result = result1.get(fifthToSeventhBits)
-			result = result.get(eighthBit)
-			for x in ninethTo16Bits:
-				if x == '1':
-					result = result + ' #' + str(7 - counter)
-				counter += 1
+			if fifthToSeventhBits == '000':
+				result = result.get(ninethBit)
+				offset = str(int((str(tenthTo16Bits) + '00'), 2))
+				result = result + ' #' + offset
+
+			else:	
+				result = result.get(eighthBit)
+				for t in ninethTo16Bits:
+					if t == '1':
+						result = result + ' #' + str(7 - counter)
+					counter += 1
 
 		#here is the special check for the branch conditional
 		elif firstFourBits == '1101':
@@ -96,8 +104,25 @@ if __name__ == '__main__':
 			result = result1.get(fifthToNinethBits)
 			result = result.get(ninethBit)
 
+		elif firstFourBits == '1100':
+			result = result1.get(fifthBit)
+			if six28 == '001':
+				baseReg = ' r3'
+			else:
+				baseReg = ' r'
+			destReg = ' r' + str(int(ninethTo11Bits,2))
+			offset = ' #' + str(int(thirteenthTo16Bits,2)+1)
+			result = result + baseReg + destReg + offset
+		
+		elif firstFourBits == '1000':
+			result = result1.get(fifthBit)
+			baseReg = ' r' + str(int(eleventhTo13Bits,2))
+			destReg = ' r' + str(int(thirteenthTo16Bits,2))
+			offset = ' #' + str(int((str(six2ten)+'0'),2))
+			result = result + baseReg + destReg + offset
+
 		else:
-			result = result2
+			result = result1.get(fifthBit)
 
 		if firstFourBits == '1010':
 			result = result + ' r' + str(int(sixthToEighthBits, 2))
